@@ -13,7 +13,9 @@ RUN wget https://github.com/Yelp/dumb-init/releases/download/v1.1.3/dumb-init_1.
 	rm -f dumb-init_*.deb
 
 # Install configgin
-RUN /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem install configgin"
+# Putting this ARG to the top of the file mysteriously makes it always empty :|
+ARG configgin_version
+RUN /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem install configgin ${configgin_version:+--version=${configgin_version}}"
 
 # Add additional configuration and scripts
 ADD monitrc.erb /opt/hcf/monitrc.erb
